@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Wikimedia Stream Dashboard</title>
+    <meta http-equiv="refresh" content="1"> <!-- Auto refresh every 5 seconds -->
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .stat-box { border: 1px solid #ccc; padding: 20px; display: inline-block; border-radius: 10px; background-color: #f9f9f9; }
+        h1 { color: #333; }
+        .number { font-size: 48px; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>Wikimedia Stream Dashboard</h1>
+<div class="stat-box">
+    <h2>Total Changes Processed</h2>
+    <div class="number" th:text="${count}">0</div>
+</div>
+</body>
+</html>

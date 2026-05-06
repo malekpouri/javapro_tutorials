@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'spring boot kafka wikimedia'
+
+
+include 'WikimediaProducer'
+include 'WikimediaConsumer'
+include 'WikimediaDashboard'

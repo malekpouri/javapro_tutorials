@@ -1,0 +1,65 @@
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      server:
+        webflux:
+#          discovery:
+#            locator:
+#              enabled: true
+#              lower-case-service-id:
+            globalcors:
+              cors-configurations:
+                '[/**]':
+                  allowed-origin-patterns: "*"
+                  allowed-methods:
+                    - GET
+                    - POST
+                    - PUT
+                    - DELETE
+                  allowed-headers: "*"
+                  allow-credentials: false
+            routes:
+                - id : DEPARTMENT-SERVICE
+                  uri:
+                    lb://DEPARTMENT-SERVICE
+                  predicates:
+                    - Path=/api/department/**
+                - id : EMPLOYEE-SERVICE
+                  uri:
+                    lb://EMPLOYEE-SERVICE
+                  predicates:
+                    - Path=/api/employee/**
+                - id : ORGANIZATION-SERVICE
+                  uri:
+                    lb://ORGANIZATION-SERVICE
+                  predicates:
+                    - Path=/api/organization/**
+
+server:
+  port: 9191
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+#  zipkin:
+#    tracing:
+#      endpoint: http://localhost:9411/api/v2/spans
+logging:
+  pattern:
+    level: "%5p [TraceID=%X{traceId} , SpanID=%X{spanId}]"
+  level:
+    root: info
+    io:
+      micrometer:
+        tracing: debug
+    org:
+      springframework:
+        web: debug

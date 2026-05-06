@@ -1,0 +1,31 @@
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+}
+
+group = 'ir.javapro'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+repositories {
+	mavenCentral()
+}
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.36'
+	annotationProcessor 'org.projectlombok:lombok:1.18.36'
+}
+publishing {
+	publications{
+		mavenJava(MavenPublication){
+			from components.java
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
+}

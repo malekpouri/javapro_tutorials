@@ -1,0 +1,81 @@
+#server:
+#  port: 8081
+
+spring:
+  application:
+    name: EMPLOYEE-SERVICE
+  config:
+    import: optional:configserver:http://localhost:8888
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: refresh,busrefresh,health
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+#  zipkin:
+#    tracing:
+#      endpoint: http://localhost:9411/api/v2/spans
+logging:
+#  pattern:
+#    level: "%5p [TraceID=%X{traceId} , SpanID=%X{spanId}]"
+  level:
+    root: info
+    io:
+      micrometer:
+        tracing: debug
+    org:
+      springframework:
+        web: debug
+
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/employee_db
+#    username: root
+#    password: service_pass
+#  data:
+#    jdbc:
+#      dialect: mysql
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka
+#
+#
+#
+resilience4j:
+  retry:
+    instances:
+      EMPLOYEE-SERVICE:
+        max-attempts: 5
+        wait-duration:
+          seconds: 1
+
+  circuitbreaker:
+    instances:
+      EMPLOYEE-SERVICE:
+        register-health-indicator: true
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+
